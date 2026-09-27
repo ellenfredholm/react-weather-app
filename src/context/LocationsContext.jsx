@@ -22,6 +22,7 @@ export function LocationsProvider({ children }) {
 
     function addLocation(location) {
         const newLocation = { ...location, id: Date.now().toString()}
+        setLocations((prev) => [ ...prev, newLocation]);
     }
 
     function removeLocation(id) {
