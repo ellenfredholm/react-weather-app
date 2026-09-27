@@ -4,7 +4,6 @@ import Header from "./components/Header"
 import HomePage from "./pages/HomePage"
 import LocationPage from "./pages/LocationPage"
 import NotFoundPage from "./pages/NotFoundPage"
-import './App.css'
 
 function App() {
   

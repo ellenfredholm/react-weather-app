@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const LocationsContext = createContext(null);
 const STORAGE_KEY = "weather-app-locations";
+const SELECTED_KEY = "weather-app-selected";
 
 function loadLocations() {
     try {
@@ -15,10 +16,19 @@ function loadLocations() {
 export function LocationsProvider({ children }) {
     const [locations, setLocations] = useState(loadLocations);
 
-
     useEffect(() => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(locations))
     }, [locations]);
+
+    const [selectedId, setSelectedId] = useState(
+        () => localStorage.getItem(SELECTED_KEY)
+    )
+
+    useEffect(() => {
+        if(selectedId) {
+            localStorage.setItem(SELECTED_KEY, selectedId)
+        }
+    }, [selectedId]);
 
     function addLocation(location) {
         const newLocation = { ...location, id: Date.now().toString()}
@@ -34,7 +44,7 @@ export function LocationsProvider({ children }) {
     }
 
     return (
-        <LocationsContext.Provider value={{ locations, addLocation, removeLocation, editLocation}}>
+        <LocationsContext.Provider value={{ locations, addLocation, removeLocation, editLocation, selectedId, setSelectedId }}>
             {children}
         </LocationsContext.Provider>
     )

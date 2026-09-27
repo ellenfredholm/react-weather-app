@@ -5,24 +5,14 @@ import { searchCity } from "../services/weatherApi";
 function AddLocationForm() {
     const { locations, addLocation } = useLocations();
     const [city, setCity] = useState("");
-    const [name, setName] = useState("");
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
     function getFormErrors() {
         const newErrors = {};
-        const trimmedName = name.trim();
 
         if (!city.trim()) {
             newErrors.city = "Please enter a city";
-        }
-
-        if (!trimmedName) {
-            newErrors.name = "Give the location a name";
-        } else if (trimmedName.length > 30) {
-            newErrors.name = "The name can be max 30 characters";
-        } else if (locations.some((location) => location.name.toLowerCase() === trimmedName.toLowerCase())) {
-            newErrors.name = "You already have a location with that name"
         }
 
         return newErrors;
@@ -33,7 +23,6 @@ function AddLocationForm() {
         event.preventDefault();
 
         const newErrors = getFormErrors();
-        console.log("errors:", newErrors)
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length > 0) {
@@ -50,9 +39,15 @@ function AddLocationForm() {
                 return;
             }
 
-            addLocation({ ...place, name: name.trim() });
+            const alreadySaved = locations.some((location) => location.latitude === place.latitude && location.longitude === place.longitude);
+
+            if(alreadySaved) {
+                setErrors({ city: "You have already saved this location"});
+                return;
+            }
+
+            addLocation(place);
             setCity("");
-            setName("");
         } catch (error) {
             setErrors({ form: error.message })
         } finally {
@@ -70,12 +65,6 @@ function AddLocationForm() {
                 {errors.city && <p className="field-error">{errors.city}</p>}
             </div>
 
-
-            <div className="form-field">
-                <label htmlFor="name">Name</label>
-                <input id="name" type="text" placeholder="Home" value={name} onChange={(event) => setName(event.target.value)} aria-invalid={Boolean(errors.name)}></input>
-                {errors.name && <p className="field-error">{errors.name}</p>}
-            </div>
             {errors.form && <p className="form-error">{errors.form}</p>}
             <button type="submit" disabled={isLoading}>{isLoading ? "Adding..." : "Add location"}</button>
         </form>

@@ -1,39 +1,17 @@
 import { Link, useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
 import { useLocations } from "../context/LocationsContext"
-import { getForecast } from "../services/weatherApi"
 import CurrentWeather from "../components/CurrentWeather"
+import DailyForecast from "../components/DailyForecast"
+import HourlyForecast from "../components/HourlyForecast"
 import ErrorMessage from "../components/ErrorMessage"
 import Loader from "../components/Loader"
+import { useForecast } from "../hooks/useForecast"
 
 function LocationPage() {
     const { id } = useParams();
     const { locations } = useLocations();
     const location = locations.find((item) => item.id === id);
-    const [forecast, setForecast] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        if (!location) {
-            return;
-        }
-
-        async function loadForecast() {
-
-            try {
-                const data = await getForecast(location.latitude, location.longitude);
-                setForecast(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
-        loadForecast();
-
-    }, [location])
+    const { forecast, isLoading, error } = useForecast(location);
 
     if (!location) {
         return (
@@ -47,11 +25,17 @@ function LocationPage() {
     return (
         <section>
             <Link to="/">Back</Link>
-            <h1>{location.name}</h1>
-            <p>{location.city}, {location.country}</p>
+            <h1>{location.city}</h1>
+            <p>{location.country}</p>
             {isLoading && <Loader />}
             {error && <ErrorMessage message={error} />}
-            {forecast && <CurrentWeather current={forecast.current} />}
+            {forecast && (
+                <>
+                <CurrentWeather current={forecast.current} />
+                <HourlyForecast hourly={forecast.hourly} />
+                <DailyForecast daily={forecast.daily} />
+                </>
+            )}
         </section>
     )
 
