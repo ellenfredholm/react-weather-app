@@ -24,3 +24,26 @@ export async function searchCity(cityName) {
         longitude: place.longitude
     }
 }
+
+const FORECAST_URL = "https://api.open-meteo.com/v1/forecast";
+
+export async function getForecast(latitude, longitude) {
+    const params = new URLSearchParams({
+        latitude,
+        longitude,
+        current: "temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code",
+        hourly: "temperature_2m,weather_code",
+        daily: "weather_code,temperature_2m_max,temperature_2m_min",
+        wind_speed_unit: "ms",
+        timezone: "auto",
+        forecast_days: 7,
+    })
+
+    const response = await fetch(`${FORECAST_URL}?${params}`);
+
+    if (!response.ok) {
+        throw new Error("Could not load weather, try again")
+    }
+
+    return response.json();
+}
