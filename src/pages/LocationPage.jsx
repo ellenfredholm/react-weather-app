@@ -24,7 +24,7 @@ function LocationPage() {
 
     return (
         <section>
-            <Link to="/">Back</Link>
+            <Link to="/" className="button-link-back"><span className="material-symbols-outlined">arrow_back_ios_new</span>Back</Link>
             <h1>{location.city}</h1>
             <p>{location.country}</p>
             {isLoading && <Loader />}

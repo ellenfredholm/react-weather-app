@@ -1,11 +1,22 @@
-import AddLocationForm from "../components/AddLocationForm.jsx";
-import LocationList from "../components/LocationList.jsx";
+import { Link } from "react-router-dom";
 import FeaturedWeather from "../components/FeaturedWeather.jsx";
 import { useLocations } from "../context/LocationsContext.jsx";
 
 function HomePage() {
   const { locations, selectedId, setSelectedId } = useLocations();
   const selectedLocation = locations.find((location) => location.id === selectedId) ?? locations[0];
+
+  if (!selectedLocation) {
+    return (
+      <section>
+        <h1>Weather</h1>
+        <p className="empty-message">
+          You have no saved locations yet.{" "}
+          <Link to="/locations">Add one</Link> to see its weather here.
+        </p>
+      </section>
+    );
+  }
   
 
   return (
@@ -28,16 +39,9 @@ function HomePage() {
             </select>
           </div>
 
-          <FeaturedWeather
-            key={selectedLocation.id}
-            location={selectedLocation}
-          />
+          <FeaturedWeather key={selectedLocation.id} location={selectedLocation}/>
         </>
       )}
-
-
-      <AddLocationForm />
-      <LocationList />
     </section>
   );
 }

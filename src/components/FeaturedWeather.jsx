@@ -9,16 +9,11 @@ function FeaturedWeather({ location }) {
 
   return (
     <section className="featured-weather">
-      <h2>{location.city}</h2>
-      <p>
-        {location.country}
-      </p>
-
       {isLoading && <Loader />}
       {error && <ErrorMessage message={error} />}
-      {forecast && <CurrentWeather current={forecast.current} />}
+      {forecast && ( <CurrentWeather current={forecast.current} title={`${location.city}, ${location.country}`}/> )}
 
-      <Link to={`/location/${location.id}`}>See full forecast</Link>
+      <Link to={`/location/${location.id}`} className="button-link">See full forecast</Link>
     </section>
   );
 }

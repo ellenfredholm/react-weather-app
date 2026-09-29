@@ -1,10 +1,9 @@
 :root {
-  --color-bg: #eef3f8;
-  --color-surface: #ffffff;
+  --color-surface: rgba(80, 83, 84, 0.3);
   --color-text: #1d2733;
-  --color-muted: #5f6b7a;
-  --color-primary: #2563eb;
-  --color-error: #c62828;
+  --color-muted: #505862;
+  --color-primary: #4386A3;
+  --color-error: #770b0b;
   --radius: 12px;
   --space: 1rem;
 }
@@ -18,9 +17,11 @@
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: "Outfit", sans-serif;
   line-height: 1.5;
-  background: var(--color-bg);
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: linear-gradient(180deg,rgba(126, 189, 217, 1) 0%, rgba(178, 168, 186, 1) 100%);
   color: var(--color-text);
 }
 
@@ -48,6 +49,43 @@ header a {
   font-weight: 700;
   font-size: 1.25rem;
   text-decoration: none;
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  background: var(--color-primary);
+  color: #ffffff;
+  padding: var(--space);
+}
+
+.app-name {
+  font-weight: 700;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.site-header nav a {
+  color: #ffffff;
+  text-decoration: none;
+  opacity: 0.8;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+.site-header nav a.active {
+  opacity: 1;
+  border-bottom-color: #ffffff;
 }
 
 main {
@@ -90,6 +128,10 @@ input[aria-invalid="true"] {
   border-color: var(--color-error);
 }
 
+input:focus {
+  border: var(--color-primary);
+}
+
 .field-error,
 .form-error,
 .error-message {
@@ -101,6 +143,7 @@ input[aria-invalid="true"] {
 button {
   min-height: 44px;
   padding: 0.5rem 1rem;
+  font-family: "Outfit", sans-serif;
   font-size: 1rem;
   font-weight: 600;
   border: none;
@@ -113,6 +156,41 @@ button {
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.button-link {
+  display: inline-block;
+  min-height: 44px;
+  padding: 0.6rem 1.25rem;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.button-link-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.6rem 1.25rem;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-weight: 400;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-top: 1rem;
+  width: 80px;
+}
+
+.button-link:hover {
+  opacity: 0.8;
 }
 
 .location-list {
@@ -150,8 +228,12 @@ button:disabled {
 
 .location-card button {
   background: transparent;
-  color: var(--color-error);
+  color: var(--color-text);
   border: 1px solid currentColor;
+}
+
+.location-card button:hover {
+  opacity: 0.8;
 }
 
 .empty-message,
@@ -252,10 +334,6 @@ button:disabled {
   }
 }
 
-
-
-
-
 select {
   width: 100%;
   padding: 0.75rem;
@@ -270,9 +348,9 @@ select {
   text-align: center;
 }
 
-.featured-weather > p {
-  color: var(--color-muted);
-  margin: 0 0 1rem;
+.current-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
 }
 
 
@@ -290,21 +368,3 @@ select {
 
 
 
-
-
-
-
-.hourly-list {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  list-style: none;
-  padding: 0;
-}
-
-.hourly-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-shrink: 0;
-}

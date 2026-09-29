@@ -37,6 +37,7 @@ export async function getForecast(latitude, longitude) {
         wind_speed_unit: "ms",
         timezone: "auto",
         forecast_days: 7,
+        forecast_hours: 24
     })
 
     const response = await fetch(`${FORECAST_URL}?${params}`);

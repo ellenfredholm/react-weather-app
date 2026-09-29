@@ -4,6 +4,7 @@ import Header from "./components/Header"
 import HomePage from "./pages/HomePage"
 import LocationPage from "./pages/LocationPage"
 import NotFoundPage from "./pages/NotFoundPage"
+import SavedLocationsPage from './pages/SavedLocationsPage'
 
 function App() {
   
@@ -14,6 +15,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
+          <Route path="/locations" element={<SavedLocationsPage />} />
           <Route path="/location/:id" element={<LocationPage />}></Route>
           <Route path="*" element={<NotFoundPage />}></Route>
         </Routes>
